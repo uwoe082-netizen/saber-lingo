@@ -14,7 +14,164 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      item_progress: {
+        Row: {
+          due_at: string
+          id: string
+          interval_days: number
+          item_id: string
+          last_confidence: number | null
+          streak: number
+          times_correct: number
+          times_seen: number
+          times_wrong: number
+          updated_at: string
+        }
+        Insert: {
+          due_at?: string
+          id?: string
+          interval_days?: number
+          item_id: string
+          last_confidence?: number | null
+          streak?: number
+          times_correct?: number
+          times_seen?: number
+          times_wrong?: number
+          updated_at?: string
+        }
+        Update: {
+          due_at?: string
+          id?: string
+          interval_days?: number
+          item_id?: string
+          last_confidence?: number | null
+          streak?: number
+          times_correct?: number
+          times_seen?: number
+          times_wrong?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_progress_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: true
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      items: {
+        Row: {
+          answer: string
+          created_at: string
+          hint: string
+          id: string
+          language: string
+          level: string
+          prompt: string
+          topic: string
+          type: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          hint?: string
+          id?: string
+          language: string
+          level: string
+          prompt: string
+          topic: string
+          type: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          hint?: string
+          id?: string
+          language?: string
+          level?: string
+          prompt?: string
+          topic?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      session_answers: {
+        Row: {
+          answered_at: string
+          confidence: number
+          id: string
+          is_correct: boolean
+          item_id: string
+          session_id: string
+          user_answer: string
+        }
+        Insert: {
+          answered_at?: string
+          confidence: number
+          id?: string
+          is_correct?: boolean
+          item_id: string
+          session_id: string
+          user_answer?: string
+        }
+        Update: {
+          answered_at?: string
+          confidence?: number
+          id?: string
+          is_correct?: boolean
+          item_id?: string
+          session_id?: string
+          user_answer?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_answers_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_answers_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "study_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_sessions: {
+        Row: {
+          avg_confidence: number | null
+          correct_count: number
+          difficulty_rating: number | null
+          finished_at: string | null
+          id: string
+          question_count: number
+          started_at: string
+        }
+        Insert: {
+          avg_confidence?: number | null
+          correct_count?: number
+          difficulty_rating?: number | null
+          finished_at?: string | null
+          id?: string
+          question_count?: number
+          started_at?: string
+        }
+        Update: {
+          avg_confidence?: number | null
+          correct_count?: number
+          difficulty_rating?: number | null
+          finished_at?: string | null
+          id?: string
+          question_count?: number
+          started_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
