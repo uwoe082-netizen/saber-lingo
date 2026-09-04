@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KurikulumRouteImport } from './routes/kurikulum'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as SesiRouteImport } from './routes/sesi'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KurikulumRoute = KurikulumRouteImport.update({
+  id: '/kurikulum',
+  path: '/kurikulum',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgressRoute = ProgressRouteImport.update({
@@ -31,30 +37,34 @@ const SesiRoute = SesiRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kurikulum': typeof KurikulumRoute
   '/progress': typeof ProgressRoute
   '/sesi': typeof SesiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kurikulum': typeof KurikulumRoute
   '/progress': typeof ProgressRoute
   '/sesi': typeof SesiRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kurikulum': typeof KurikulumRoute
   '/progress': typeof ProgressRoute
   '/sesi': typeof SesiRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/progress' | '/sesi'
+  fullPaths: '/' | '/kurikulum' | '/progress' | '/sesi'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/progress' | '/sesi'
-  id: '__root__' | '/' | '/progress' | '/sesi'
+  to: '/' | '/kurikulum' | '/progress' | '/sesi'
+  id: '__root__' | '/' | '/kurikulum' | '/progress' | '/sesi'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KurikulumRoute: typeof KurikulumRoute
   ProgressRoute: typeof ProgressRoute
   SesiRoute: typeof SesiRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kurikulum': {
+      id: '/kurikulum'
+      path: '/kurikulum'
+      fullPath: '/kurikulum'
+      preLoaderRoute: typeof KurikulumRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/progress': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KurikulumRoute: KurikulumRoute,
   ProgressRoute: ProgressRoute,
   SesiRoute: SesiRoute,
 }
