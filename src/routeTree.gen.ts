@@ -10,33 +10,73 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KurikulumRouteImport } from './routes/kurikulum'
+import { Route as KursusRouteImport } from './routes/kursus'
+import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as SesiRouteImport } from './routes/sesi'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KurikulumRoute = KurikulumRouteImport.update({
+  id: '/kurikulum',
+  path: '/kurikulum',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KursusRoute = KursusRouteImport.update({
+  id: '/kursus',
+  path: '/kursus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SesiRoute = SesiRouteImport.update({
+  id: '/sesi',
+  path: '/sesi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kurikulum': typeof KurikulumRoute
+  '/kursus': typeof KursusRoute
+  '/progress': typeof ProgressRoute
+  '/sesi': typeof SesiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kurikulum': typeof KurikulumRoute
+  '/kursus': typeof KursusRoute
+  '/progress': typeof ProgressRoute
+  '/sesi': typeof SesiRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kurikulum': typeof KurikulumRoute
+  '/kursus': typeof KursusRoute
+  '/progress': typeof ProgressRoute
+  '/sesi': typeof SesiRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/kurikulum' | '/kursus' | '/progress' | '/sesi'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/kurikulum' | '/kursus' | '/progress' | '/sesi'
+  id: '__root__' | '/' | '/kurikulum' | '/kursus' | '/progress' | '/sesi'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KurikulumRoute: typeof KurikulumRoute
+  KursusRoute: typeof KursusRoute
+  ProgressRoute: typeof ProgressRoute
+  SesiRoute: typeof SesiRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +88,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kurikulum': {
+      id: '/kurikulum'
+      path: '/kurikulum'
+      fullPath: '/kurikulum'
+      preLoaderRoute: typeof KurikulumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kursus': {
+      id: '/kursus'
+      path: '/kursus'
+      fullPath: '/kursus'
+      preLoaderRoute: typeof KursusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sesi': {
+      id: '/sesi'
+      path: '/sesi'
+      fullPath: '/sesi'
+      preLoaderRoute: typeof SesiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KurikulumRoute: KurikulumRoute,
+  KursusRoute: KursusRoute,
+  ProgressRoute: ProgressRoute,
+  SesiRoute: SesiRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
