@@ -101,7 +101,7 @@ function KurikulumPage() {
                       </ul>
                       {!open && (
                         <p className="mt-3 text-[11px] font-semibold text-muted-foreground">
-                          Kuasai {levelLabel[LEVELS[i - 1]]} dulu untuk membuka tahap ini.
+                          Kuasai tahap sebelumnya dulu untuk membuka tahap ini.
                         </p>
                       )}
                     </div>
