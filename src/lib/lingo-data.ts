@@ -1,11 +1,16 @@
 import { queryOptions } from "@tanstack/react-query";
 import type { Item, Progress, StudySession } from "./lingo";
 
+export type ConfidenceTrendPoint = {
+  date: string;
+  avg: number;
+};
+
 // PENTING: isi env var ini di pengaturan project Lovable / file .env
 // (VITE_API_BASE_URL) dengan URL backend API kita setelah di-deploy,
 // misalnya https://lingo-srs-api.up.railway.app -- TANPA garis miring
 // di akhir.
-const API_BASE = import.meta.env.VITE_API_BASE_URL as string | undefined;
+const API_BASE = import.meta.env["VITE_API_BASE_URL"] as string | undefined;
 
 if (!API_BASE) {
   // eslint-disable-next-line no-console
@@ -24,7 +29,7 @@ async function apiPost<T>(path: string, body?: unknown): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: body ? JSON.stringify(body) : undefined,
+    body: body ? JSON.stringify(body) : null,
   });
   if (!res.ok) throw new Error(`POST ${path} gagal: ${res.status}`);
   return res.json() as Promise<T>;
@@ -43,6 +48,12 @@ export const progressQuery = queryOptions({
 export const sessionsQuery = queryOptions({
   queryKey: ["study_sessions"],
   queryFn: (): Promise<StudySession[]> => apiGet<StudySession[]>("/sessions"),
+});
+
+export const confidenceTrendQuery = queryOptions({
+  queryKey: ["confidence_trend"],
+  queryFn: (): Promise<ConfidenceTrendPoint[]> =>
+    apiGet<ConfidenceTrendPoint[]>("/trend"),
 });
 
 export function byItemId(progress: Progress[]): Record<string, Progress> {
