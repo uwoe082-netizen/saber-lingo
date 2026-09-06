@@ -128,10 +128,12 @@ export function interleave(items: Item[]): Item[] {
     let idx = pool.findIndex((i) => i.language !== lastLang && i.type !== lastType);
     if (idx === -1) idx = pool.findIndex((i) => i.language !== lastLang);
     if (idx === -1) idx = 0;
-    const [picked] = pool.splice(idx, 1);
+    const picked = pool.splice(idx, 1)[0];
+    if (!picked) break;
     out.push(picked);
     lastLang = picked.language;
     lastType = picked.type;
+
   }
   return out;
 }
