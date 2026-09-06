@@ -284,7 +284,7 @@ function SesiPage() {
               disabled={phase !== "answering"}
               onChange={(e) => setAnswer(e.target.value)}
               autoComplete="off"
-              className="gloss flex-1 rounded-2xl border border-input bg-card px-5 py-4 text-base font-semibold placeholder:text-muted-foreground focus:ring-4 focus:ring-ring/20 focus:outline-none disabled:opacity-70"
+              className="flex-1 rounded-2xl border border-input bg-card px-5 py-4 text-base font-semibold placeholder:text-muted-foreground focus:ring-4 focus:ring-ring/20 focus:outline-none disabled:opacity-70"
               placeholder="ketik jawabanmu…"
             />
             {phase === "answering" && (

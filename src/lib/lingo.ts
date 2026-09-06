@@ -128,10 +128,12 @@ export function interleave(items: Item[]): Item[] {
     let idx = pool.findIndex((i) => i.language !== lastLang && i.type !== lastType);
     if (idx === -1) idx = pool.findIndex((i) => i.language !== lastLang);
     if (idx === -1) idx = 0;
-    const [picked] = pool.splice(idx, 1);
+    const picked = pool.splice(idx, 1)[0];
+    if (!picked) break;
     out.push(picked);
     lastLang = picked.language;
     lastType = picked.type;
+
   }
   return out;
 }
@@ -152,9 +154,11 @@ export function buildSession(
     })
     .sort(
       (a, b) =>
-        new Date(progressByItem[a.id].due_at).getTime() -
-        new Date(progressByItem[b.id].due_at).getTime(),
+        new Date(progressByItem[a.id]?.due_at ?? 0).getTime() -
+        new Date(progressByItem[b.id]?.due_at ?? 0).getTime(),
     );
+
+
   const fresh = eligible.filter((i) => (progressByItem[i.id]?.times_seen ?? 0) === 0);
   const picked = [...due.slice(0, target)];
   for (const item of fresh) {

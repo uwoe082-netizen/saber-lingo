@@ -137,7 +137,7 @@ function ProgressPage() {
               <div className="mt-2 flex justify-between text-[11px] font-semibold text-muted-foreground">
                 <span>Awal</span>
                 <span>
-                  Hari ini · {points[points.length - 1].avg.toFixed(1)}/4
+                  Hari ini · {(points[points.length - 1]?.avg ?? 0).toFixed(1)}/4
                 </span>
               </div>
             </>
