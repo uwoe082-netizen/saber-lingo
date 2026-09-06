@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppShell, Chip, Panel } from "@/components/AppShell";
+import { PinyinKeyboard } from "@/components/PinyinKeyboard";
 import {
   byItemId,
   createSession,
@@ -97,6 +98,15 @@ function SesiPage() {
     setPhase("rating");
   }
 
+  function playAudio() {
+    if (!current) return;
+    const utterance = new SpeechSynthesisUtterance(current.audio_text || current.prompt);
+    utterance.lang = current.language === "zh" ? "zh-CN" : "en-US";
+    utterance.rate = 0.9;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  }
+  
     async function rate(confidence: number) {
     if (!current || !sessionId) return;
     const prev = pmap[current.id];
@@ -275,6 +285,16 @@ function SesiPage() {
             <p className="mt-2 text-xs text-muted-foreground">petunjuk: {current.hint}</p>
           )}
 
+          {current.type === "dengar & tulis" && (
+            <button
+              type="button"
+              onClick={playAudio}
+              className="gloss mt-3 rounded-2xl bg-card px-5 py-3 text-sm font-extrabold outline-1 -outline-offset-1 outline-border active:scale-95"
+            >
+              🔊 Putar Audio
+            </button>
+          )}
+
           <form onSubmit={submitAnswer} className="mt-6 flex gap-3">
             <input
               ref={inputRef}
@@ -294,6 +314,13 @@ function SesiPage() {
               </button>
             )}
           </form>
+
+          {current.language === "zh" && phase === "answering" && (
+            <PinyinKeyboard
+              onInsert={(ch) => setAnswer((a) => a + ch)}
+              onBackspace={() => setAnswer((a) => a.slice(0, -1))}
+            />
+          )}
 
           {phase !== "answering" && (
             <div
