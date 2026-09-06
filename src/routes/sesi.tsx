@@ -98,7 +98,35 @@ function SesiPage() {
     setPhase("rating");
   }
 
-  async function rate(confidence: number) {
+    async function rate(confidence: number) {
+    if (!current || !sessionId) return;
+    const prev = pmap[current.id];
+    setConfidences((c) => [...c, confidence]);
+    setPhase("scheduled");
+    try {
+      const result = await recordAnswer({
+        sessionId,
+        item: current,
+        progress: prev,
+        userAnswer: answer,
+        correct,
+        confidence,
+      });
+      setScheduleText(formatInterval(result.interval_days));
+    } catch {
+      setScheduleText("segera");
+      /* jawaban tetap lanjut walau simpan gagal */
+    }
+    window.setTimeout(() => {
+      if (index + 1 >= total) {
+        setDone(true);
+      } else {
+        setIndex((i) => i + 1);
+        setAnswer("");
+        setPhase("answering");
+      }
+    }, 1100);
+  }
     if (!current || !sessionId) return;
     const prev = pmap[current.id];
     const interval = nextIntervalDays(prev?.interval_days ?? 0, confidence, correct);
