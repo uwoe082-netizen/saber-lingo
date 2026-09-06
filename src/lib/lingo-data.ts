@@ -10,7 +10,7 @@ export type ConfidenceTrendPoint = {
 // (VITE_API_BASE_URL) dengan URL backend API kita setelah di-deploy,
 // misalnya https://lingo-srs-api.up.railway.app -- TANPA garis miring
 // di akhir.
-const API_BASE = import.meta.env.VITE_API_BASE_URL as string | undefined;
+const API_BASE = import.meta.env["VITE_API_BASE_URL"] as string | undefined;
 
 if (!API_BASE) {
   // eslint-disable-next-line no-console
