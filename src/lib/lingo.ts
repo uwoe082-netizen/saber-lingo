@@ -11,6 +11,7 @@ export type Item = {
   prompt: string;
   answer: string;
   hint: string;
+  audio_text: string;
 };
 
 export type Progress = {
