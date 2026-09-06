@@ -19,7 +19,6 @@ import {
   isAnswerCorrect,
   languageLabel,
   levelLabel,
-  nextIntervalDays,
   unlockedLevels,
 } from "@/lib/lingo";
 
@@ -115,35 +114,6 @@ function SesiPage() {
       setScheduleText(formatInterval(result.interval_days));
     } catch {
       setScheduleText("segera");
-      /* jawaban tetap lanjut walau simpan gagal */
-    }
-    window.setTimeout(() => {
-      if (index + 1 >= total) {
-        setDone(true);
-      } else {
-        setIndex((i) => i + 1);
-        setAnswer("");
-        setPhase("answering");
-      }
-    }, 1100);
-  }
-    if (!current || !sessionId) return;
-    const prev = pmap[current.id];
-    const interval = nextIntervalDays(prev?.interval_days ?? 0, confidence, correct);
-    setConfidences((c) => [...c, confidence]);
-    setScheduleText(formatInterval(interval));
-    setPhase("scheduled");
-    try {
-      await recordAnswer({
-        sessionId,
-        item: current,
-        progress: prev,
-        userAnswer: answer,
-        correct,
-        confidence,
-        nextInterval: interval,
-      });
-    } catch {
       /* jawaban tetap lanjut walau simpan gagal */
     }
     window.setTimeout(() => {
