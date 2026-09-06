@@ -154,9 +154,9 @@ export function buildSession(
     })
     .sort(
       (a, b) =>
-        new Date(progressByItem[a.id].due_at).getTime() -
-        new Date(progressByItem[b.id].due_at).getTime(),
-    );
+        new Date(progressByItem[a.id]?.due_at ?? 0).getTime() -
+        new Date(progressByItem[b.id]?.due_at ?? 0).getTime(),
+
   const fresh = eligible.filter((i) => (progressByItem[i.id]?.times_seen ?? 0) === 0);
   const picked = [...due.slice(0, target)];
   for (const item of fresh) {
